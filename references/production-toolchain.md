@@ -47,6 +47,18 @@ runtime/.venv/bin/whisper WORK/audio.wav --language Persian --task transcribe --
 
 Choose a model that fits the available hardware and the clip; compare a difficult passage by listening instead of assuming a larger model fixes it. Keep the approved transcript as the caption source and place each final timed Persian caption in its own editable Text+ clip when requested.
 
+HyperFrames can drive the installed `whisper.cpp` engine and download its model on first use. For Persian, request a multilingual model such as `large-v3`; the `.en` variants do not support Persian:
+
+```sh
+scripts/hyperframes.sh transcribe WORK/audio.wav --engine whisper --language fa --model large-v3
+```
+
+For direct `whisper.cpp` use, pass a downloaded GGML model file explicitly:
+
+```sh
+whisper-cli --model /path/to/ggml-model.bin --file WORK/audio.wav --language fa
+```
+
 ### yt-dlp
 
 Use this only for an authorized URL when the user needs a local source copy. Inspect available formats first, avoid playlists unless requested, and preserve the URL/source and license note alongside the downloaded asset.
