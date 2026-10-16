@@ -43,6 +43,29 @@ install_ffmpeg() {
   esac
 }
 
+install_whisper_cpp() {
+  if command -v whisper-cli >/dev/null 2>&1 || command -v whisper-cpp >/dev/null 2>&1; then
+    printf 'whisper.cpp already available: %s\n' "$(command -v whisper-cli || command -v whisper-cpp)"
+    return
+  fi
+
+  case "$(uname -s)" in
+    Darwin)
+      if command -v brew >/dev/null 2>&1; then
+        brew install whisper.cpp
+      else
+        printf 'Install whisper.cpp with Homebrew to enable HyperFrames local transcription.\n' >&2
+      fi
+      ;;
+    Linux)
+      printf 'whisper.cpp is optional here; HyperFrames can build it when transcription is first used.\n'
+      ;;
+    *)
+      printf 'whisper.cpp was not installed automatically on this OS.\n'
+      ;;
+  esac
+}
+
 install_python_tools() {
   if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
     printf 'Python 3.11 is required. Install it or set PYTHON_BIN to a compatible Python 3.11 executable.\n' >&2
@@ -64,6 +87,7 @@ install_python_tools() {
     "$VENV/bin/python" -m pip install --upgrade pip
     "$VENV/bin/python" -m pip install -r "$RUNTIME_DIR/requirements.txt"
   fi
+  export HYPERFRAMES_PYTHON="$VENV/bin/python"
 }
 
 install_node_tools() {
@@ -128,6 +152,7 @@ install_node_tools() {
 }
 
 install_ffmpeg
+install_whisper_cpp
 install_python_tools
 install_node_tools
 
@@ -139,4 +164,9 @@ ffprobe -version | head -n 1
 "$RUNTIME_DIR/.venv/bin/python" -c 'import cv2; print("OpenCV", cv2.__version__, "contrib ximgproc:", hasattr(cv2, "ximgproc"))'
 "$RUNTIME_DIR/node_modules/.bin/hyperframes" --version
 printf 'Puppeteer Core %s\n' "$("$NODE_BIN" -p 'require(process.argv[1]).version' "$RUNTIME_DIR/node_modules/puppeteer-core/package.json")"
-printf '\nToolchain installation finished. Whisper downloads model weights on first transcription.\n'
+if command -v whisper-cli >/dev/null 2>&1; then
+  printf 'whisper.cpp %s\n' "$(command -v whisper-cli)"
+elif command -v whisper-cpp >/dev/null 2>&1; then
+  printf 'whisper.cpp %s\n' "$(command -v whisper-cpp)"
+fi
+printf '\nToolchain installation finished. AI model weights download on first use.\n'

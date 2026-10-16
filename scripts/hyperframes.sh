@@ -3,6 +3,9 @@ set -euo pipefail
 
 SKILL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HYPERFRAMES_BIN="$SKILL_ROOT/runtime/node_modules/.bin/hyperframes"
+if [ -z "${HYPERFRAMES_PYTHON:-}" ] && [ -x "$SKILL_ROOT/runtime/.venv/bin/python" ]; then
+  export HYPERFRAMES_PYTHON="$SKILL_ROOT/runtime/.venv/bin/python"
+fi
 
 # Match the Node runtime used by the installer when nvm is available.
 NVM_SCRIPT="${NVM_DIR:-$HOME/.nvm}/nvm.sh"
