@@ -7,8 +7,8 @@ These tools support the edit around DaVinci Resolve. Keep the Resolve project an
 - Check availability and version first (`command -v`, then the tool's `--version` or `--help`). Check the project's own dependencies before changing them.
 - If a tool is missing, continue with available tools where practical and tell the user what could not run. Do not install or upgrade a stack of dependencies speculatively. Whisper needs FFmpeg; HyperFrames also needs FFmpeg and a compatible browser. Puppeteer may download a browser when installed, so do not install it as a side effect of an unrelated edit.
 - To install this skill's toolchain on macOS or Debian/Ubuntu, use [`scripts/install-tools.sh`](../scripts/install-tools.sh). It installs FFmpeg through Homebrew or apt and keeps Python and Node dependencies under `runtime/`; inspect the script before running it on another host.
-- The installer also provides HyperFrames' optional Kokoro ONNX and MusicGen dependencies; model weights are downloaded on first use. The available Kokoro voices/languages do not include Persian, so keep Persian narration in the user's own recording or use a Persian-capable voice workflow.
-- Check the specific MusicGen checkpoint's model-weight license before generating audio. Meta's `facebook/musicgen-small` weights are CC-BY-NC 4.0, so do not use that checkpoint for commercial café or promotional videos unless the user has separate rights; use a commercially cleared music source instead.
+- The installer provides HyperFrames' optional Kokoro ONNX and MusicGen dependencies plus Piper TTS. Kokoro voices do not include Persian; for Persian text-to-speech, use the local Piper voice described below. Model weights download to a user cache on first use, not into the skill repository.
+- Check the specific MusicGen checkpoint's model-weight license before generating audio. Meta's `facebook/musicgen-small` weights are CC-BY-NC 4.0, so do not use that checkpoint's outputs in commercial café or promotional videos unless the user has separate rights; use a commercially cleared music source instead.
 - Preserve source media and existing cuts. Write analysis, proxies, and exports into the current version's organized output folder; never overwrite the source or the prior project version.
 - Use `yt-dlp` only for footage the user owns or is allowed to download. Do not bypass DRM, paywalls, access controls, or platform restrictions. Do not use browser cookies, private session data, or credentials to fetch media.
 - Keep private footage and transcripts local. Do not upload, publish, or send them to a hosted service unless the user asks for that destination.
@@ -46,6 +46,20 @@ runtime/.venv/bin/whisper WORK/audio.wav --language Persian --task transcribe --
 ```
 
 Choose a model that fits the available hardware and the clip; compare a difficult passage by listening instead of assuming a larger model fixes it. Keep the approved transcript as the caption source and place each final timed Persian caption in its own editable Text+ clip when requested.
+
+### Persian speech generation
+
+Use Piper for an offline Persian draft voice when the user requests synthetic narration, a timing guide, or a placeholder. Keep the user's original recording as the edit's voice track unless they ask to replace it. Generate to a separate WAV, then listen and review pronunciation, names, colloquial wording, and pauses before using it in an edit.
+
+The bundled helper installs the `fa_IR-amir-medium` voice on first use into `~/.cache/video-edit/piper` and writes the WAV only to the output path supplied:
+
+```sh
+scripts/persian-tts.sh /tmp/voice-draft.wav "سلام، این یک نمونهٔ صدای فارسی است."
+```
+
+Set `PIPER_VOICE` to another available Piper voice name or `PIPER_DATA_DIR` to change the model cache directory. The selected `fa_IR-amir-medium` model card identifies Persian (Iran), medium quality, a CC0 training dataset, and MIT model-repository metadata; keep the voice's own model card with any distributed project because Piper's voice files carry per-voice terms. The package is installed in the skill's Python 3.11 environment. See [Piper's CLI instructions](https://github.com/OHF-Voice/piper1-gpl/blob/main/docs/CLI.md) and the [Persian amir voice card](https://huggingface.co/rhasspy/piper-voices/tree/main/fa/fa_IR/amir/medium).
+
+Whisper already handles Persian transcription: explicitly set `--language Persian` for OpenAI Whisper or `--language fa` with a multilingual whisper.cpp model. Kokoro's current bundled voices do not include Persian. Meta MMS Persian TTS is CC-BY-NC 4.0 and Coqui XTTS-v2 does not list Persian among its supported languages; do not pick either as a workaround for commercial narration.
 
 HyperFrames can drive the installed `whisper.cpp` engine and download its model on first use. For Persian, request a multilingual model such as `large-v3`; the `.en` variants do not support Persian:
 

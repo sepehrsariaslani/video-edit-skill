@@ -17,9 +17,11 @@ cd ~/.codex/skills/video-edit
 ./scripts/install-tools.sh
 ```
 
-The installer supports macOS with Homebrew and Debian/Ubuntu with apt. It installs FFmpeg/ffprobe at the OS level and keeps Whisper, OpenCV contrib, yt-dlp, HyperFrames, Puppeteer Core, Kokoro ONNX, SoundFile, and Transformers under `runtime/`. It also installs whisper.cpp with Homebrew on macOS; on Linux, HyperFrames can build it when local transcription is first used. It requires Python 3.11 and Node.js 22.12 or newer. OpenAI Whisper, whisper.cpp, Kokoro, and MusicGen model weights are fetched on first use, not bundled with the skill. Other operating systems can install the same pinned dependencies from `runtime/requirements.txt` and `runtime/package.json` using their package managers.
+The installer supports macOS with Homebrew and Debian/Ubuntu with apt. It installs FFmpeg/ffprobe at the OS level and keeps Whisper, OpenCV contrib, yt-dlp, HyperFrames, Puppeteer Core, Kokoro ONNX, SoundFile, Transformers, and Piper TTS under `runtime/`. It also installs whisper.cpp with Homebrew on macOS; on Linux, HyperFrames can build it when local transcription is first used. It requires Python 3.11 and Node.js 22.12 or newer. OpenAI Whisper, whisper.cpp, Kokoro, Piper voices, and MusicGen model weights are fetched on first use, not bundled with the skill. Other operating systems can install the same pinned dependencies from `runtime/requirements.txt` and `runtime/package.json` using their package managers.
 
 Docker Desktop is separate from the skill installer because it is a system application with its own setup and license prompts. It is optional for normal local rendering; HyperFrames only needs a running Docker engine for `render --docker`. On macOS, install it from the [official Docker Desktop instructions](https://docs.docker.com/desktop/setup/install/mac-install/) and start Docker Desktop when you need container rendering.
+
+For an offline Persian voice draft, run `scripts/persian-tts.sh OUTPUT.wav "متن فارسی"`. It downloads the default `fa_IR-amir-medium` voice to the user cache on first use. Read the licensing and review notes in `references/production-toolchain.md`; MusicGen weights are noncommercial.
 
 ## Use
 
@@ -27,4 +29,4 @@ Invoke `$video-edit` when asking Codex to prepare or revise a short-form edit. R
 
 ## Licensing
 
-The skill text and installer are licensed under MIT. FFmpeg, Whisper, yt-dlp, OpenCV, Puppeteer, HyperFrames, and downloaded footage keep their own upstream licenses and usage terms. Check those terms for the way you use and distribute a finished project.
+The skill text and installer are licensed under MIT. FFmpeg, Whisper, yt-dlp, OpenCV, Puppeteer, HyperFrames, Piper voice models, MusicGen weights, and downloaded footage keep their own upstream licenses and usage terms. Check those terms for the way you use and distribute a finished project.

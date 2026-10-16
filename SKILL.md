@@ -1,6 +1,6 @@
 ---
 name: video-edit
-description: Create and revise editable DaVinci Resolve short-form videos and motion graphics, especially the user's Persian café accounting reels. Use optional FFmpeg, Whisper, yt-dlp, OpenCV, Puppeteer, or HyperFrames workflows when they fit; preserve existing edits unless asked to change them.
+description: Create and revise editable DaVinci Resolve short-form videos and motion graphics, especially the user's Persian café accounting reels. Use optional FFmpeg, Whisper, Persian Piper TTS, yt-dlp, OpenCV, Puppeteer, or HyperFrames workflows when they fit; preserve existing edits unless asked to change them.
 ---
 
 # Video Edit
