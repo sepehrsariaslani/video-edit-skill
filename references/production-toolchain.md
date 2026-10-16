@@ -63,7 +63,7 @@ Whisper already handles Persian transcription: explicitly set `--language Persia
 
 ### MusicGen background audio
 
-Use MusicGen only for noncommercial drafts or when the user supplies separate rights for the checkpoint. It generates music from text prompts; it is not Persian speech synthesis. The `facebook/musicgen-small` weights are about 2.4 GB and are cached by Hugging Face on first use. Check available memory before loading them; audio generation needs more working memory than the weight file alone. For a permitted noncommercial experiment, the installed Transformers API can generate a short instrumental WAV:
+Use MusicGen only for noncommercial drafts or when the user supplies separate rights for the checkpoint. It generates music from text prompts; it is not Persian speech synthesis, and its model card says it was trained with English descriptions, so do not expect Persian prompts to work as well. The `facebook/musicgen-small` weights are about 2.4 GB and are cached by Hugging Face on first use. Check available memory before loading them; audio generation needs more working memory than the weight file alone. For a permitted noncommercial experiment, the installed Transformers API can generate a short instrumental WAV:
 
 ```python
 import soundfile as sf
