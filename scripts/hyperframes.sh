@@ -4,6 +4,16 @@ set -euo pipefail
 SKILL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HYPERFRAMES_BIN="$SKILL_ROOT/runtime/node_modules/.bin/hyperframes"
 
+# Match the Node runtime used by the installer when nvm is available.
+NVM_SCRIPT="${NVM_DIR:-$HOME/.nvm}/nvm.sh"
+if [ -s "$NVM_SCRIPT" ]; then
+  # shellcheck disable=SC1090
+  . "$NVM_SCRIPT"
+  if nvm version default >/dev/null 2>&1; then
+    nvm use --silent default >/dev/null
+  fi
+fi
+
 if [ ! -x "$HYPERFRAMES_BIN" ]; then
   printf 'HyperFrames is not installed. Run scripts/install-tools.sh first.\n' >&2
   exit 1
