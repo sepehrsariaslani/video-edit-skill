@@ -15,6 +15,8 @@ Follow the user's workspace instruction: inspect prerequisites before any build,
 
 ## Preserve the edit
 
+- Use only the user's supplied footage and audio by default. Do not add downloaded/stock/AI-generated clips, synthetic narration, or generated music unless the user asks for them.
+- Keep the user's original voice recording in sync and on its own audio track. Do not replace or alter it; denoise, process, or rebalance it only when requested.
 - Treat the user's existing cuts, clip order, timing, and crops as intentional. Keep them intact unless the user asks for a layout or timing change.
 - Keep source footage on its own lower video track and motion graphics on a separate upper track. Keep reusable backgrounds such as the dotted pattern on their own transparent track, long enough to cover the requested sequence.
 - Put synchronized sound effects on a separate audio track so the user can adjust or mute them independently.

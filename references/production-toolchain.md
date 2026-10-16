@@ -49,7 +49,7 @@ Choose a model that fits the available hardware and the clip; compare a difficul
 
 ### Persian speech generation
 
-Use Piper for an offline Persian draft voice when the user requests synthetic narration, a timing guide, or a placeholder. Keep the user's original recording as the edit's voice track unless they ask to replace it. Generate to a separate WAV, then listen and review pronunciation, names, colloquial wording, and pauses before using it in an edit.
+Use Piper only when the user explicitly requests synthetic Persian narration, a timing guide, or a placeholder. For the user's normal edits, keep the supplied original voice recording in sync and unchanged. If synthetic speech is requested, generate to a separate WAV, then listen and review pronunciation, names, colloquial wording, and pauses before using it in an edit.
 
 The bundled helper installs the `fa_IR-amir-medium` voice on first use into `~/.cache/video-edit/piper` and writes the WAV only to the output path supplied:
 
@@ -63,7 +63,7 @@ Whisper already handles Persian transcription: explicitly set `--language Persia
 
 ### MusicGen background audio
 
-Use MusicGen only for noncommercial drafts or when the user supplies separate rights for the checkpoint. It generates music from text prompts; it is not Persian speech synthesis, and its model card says it was trained with English descriptions, so do not expect Persian prompts to work as well. The `facebook/musicgen-small` weights are about 2.4 GB and are cached by Hugging Face on first use. Check available memory before loading them; audio generation needs more working memory than the weight file alone. For a permitted noncommercial experiment, the installed Transformers API can generate a short instrumental WAV:
+Use MusicGen only when the user explicitly asks for generated music and the work is noncommercial, or when they supply separate rights for the checkpoint. It generates music from text prompts; it is not Persian speech synthesis, and its model card says it was trained with English descriptions, so do not expect Persian prompts to work as well. The `facebook/musicgen-small` weights are about 2.4 GB and are cached by Hugging Face on first use. Check available memory before loading them; audio generation needs more working memory than the weight file alone. For a permitted noncommercial experiment, the installed Transformers API can generate a short instrumental WAV:
 
 ```python
 import soundfile as sf
