@@ -61,6 +61,30 @@ Set `PIPER_VOICE` to another available Piper voice name or `PIPER_DATA_DIR` to c
 
 Whisper already handles Persian transcription: explicitly set `--language Persian` for OpenAI Whisper or `--language fa` with a multilingual whisper.cpp model. Kokoro's current bundled voices do not include Persian. Meta MMS Persian TTS is CC-BY-NC 4.0 and Coqui XTTS-v2 does not list Persian among its supported languages; do not pick either as a workaround for commercial narration.
 
+### MusicGen background audio
+
+Use MusicGen only for noncommercial drafts or when the user supplies separate rights for the checkpoint. It generates music from text prompts; it is not Persian speech synthesis. The `facebook/musicgen-small` weights are about 2.4 GB and are cached by Hugging Face on first use. Check available memory before loading them; audio generation needs more working memory than the weight file alone. For a permitted noncommercial experiment, the installed Transformers API can generate a short instrumental WAV:
+
+```python
+import soundfile as sf
+import torch
+from transformers import AutoProcessor, MusicgenForConditionalGeneration
+
+model_id = "facebook/musicgen-small"
+processor = AutoProcessor.from_pretrained(model_id)
+model = MusicgenForConditionalGeneration.from_pretrained(model_id)
+inputs = processor(
+    text=["quiet instrumental cafe ambience, warm piano and soft brushed percussion"],
+    padding=True,
+    return_tensors="pt",
+)
+with torch.inference_mode():
+    audio = model.generate(**inputs, do_sample=True, guidance_scale=3, max_new_tokens=256)
+sf.write("outputs/musicgen-draft.wav", audio[0].cpu().numpy().T, model.config.audio_encoder.sampling_rate)
+```
+
+This example follows the [Transformers MusicGen API](https://huggingface.co/docs/transformers/model_doc/musicgen). Keep the generated WAV separate from the Resolve source audio and review it before use. Do not use this checkpoint for café promotion or other commercial work under its current [CC-BY-NC 4.0 model license](https://huggingface.co/facebook/musicgen-small).
+
 HyperFrames can drive the installed `whisper.cpp` engine and download its model on first use. For Persian, request a multilingual model such as `large-v3`; the `.en` variants do not support Persian:
 
 ```sh
