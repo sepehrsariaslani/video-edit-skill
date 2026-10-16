@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Edit"
+  short_description: "ادیت و موشن ویدئو در DaVinci Resolve"
+  default_prompt: "ویدئوی من را در DaVinci Resolve با حفظ ادیت موجود، موشن‌های قابل ویرایش و لایه‌بندی تمیز آماده کن."

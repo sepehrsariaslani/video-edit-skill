@@ -1,0 +1,13 @@
+{
+  "name": "video-edit-skill-toolchain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local runtime tools for the Codex video-edit skill",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "hyperframes": "0.8.164",
+    "puppeteer-core": "25.14.0"
+  }
+}

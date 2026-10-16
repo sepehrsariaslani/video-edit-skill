@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+runtime/.venv/
+runtime/node_modules/
+runtime/.cache/
+renders/
+outputs/
